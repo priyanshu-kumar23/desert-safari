@@ -44,3 +44,10 @@ next-env.d.ts
 .next-test/
 playwright-report/
 test-results/
+
+# added for deploy
+node_modules
+.next
+out
+!.env.example
+*.log
