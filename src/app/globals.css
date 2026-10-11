@@ -316,5 +316,12 @@
  * artwork), so headline/CTAs never sit on the white car. Computed from the same cover maths as .hero-plate.
  */
 @media (min-width: 1024px) {
-  .hero-text-offset { padding-left: 30vw; }
+  .hero-text-offset {
+    /* split into variables: deeply nested max()/clamp() inside one calc() crashed the CSS minifier on Windows */
+    --box-w: max(100cqw, 150cqh);
+    --lead: calc(0.36 * var(--box-w) + (100cqw - var(--box-w)) * 0.5);
+    --edge: max(0px, calc((100cqw - 88rem) / 2));
+    --gutter: clamp(1rem, 4cqw, 3rem);
+    padding-left: max(0px, calc(var(--lead) - var(--edge) - var(--gutter)));
+  }
 }
