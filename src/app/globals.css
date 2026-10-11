@@ -1,26 +1,320 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ---------------------------------------------------------------------- */
+/* Design tokens — Red Sand Adventure                                      */
+/* ---------------------------------------------------------------------- */
+
+@theme {
+  --color-sand-50: #fffcf8;
+  --color-sand-100: #fbf6f0;
+  --color-sand-200: #f4ebdf;
+  --color-sand-300: #ead9c3;
+  --color-sand-400: #dcc5a5;
+  --color-sand-500: #c9a97c;
+
+  --color-ink-950: #14110f;
+  --color-ink-900: #1d1815;
+  --color-ink-800: #2a231e;
+  --color-ink-600: #5a4f46;
+  --color-ink-400: #8a7d71;
+
+  --color-red-300: #f0a595;
+  --color-red-400: #e0593f;
+  --color-red-500: #c8361f;
+  --color-red-600: #a62a16;
+  --color-red-700: #801f10;
+
+  --color-ember-400: #f08a3c;
+  --color-ember-500: #e0701f;
+  --color-ember-600: #c25a12;
+
+  --font-display: var(--font-display), "Times New Roman", serif;
+  --font-sans: var(--font-body), "Inter Tight", system-ui, sans-serif;
+
+  /* Radius scale: 12 / 20 / 32 */
+  --radius-field: 0.75rem;
+  --radius-card: 1.25rem;
+  --radius-panel: 2rem;
+
+  --shadow-soft: 0 1px 2px rgb(20 17 15 / 0.04), 0 8px 24px -8px rgb(20 17 15 / 0.12);
+  --shadow-card: 0 2px 4px rgb(20 17 15 / 0.04), 0 12px 32px -10px rgb(20 17 15 / 0.16),
+    0 32px 64px -24px rgb(20 17 15 / 0.2);
+  --shadow-lift: 0 4px 8px rgb(20 17 15 / 0.06), 0 24px 48px -12px rgb(20 17 15 / 0.28),
+    0 48px 96px -32px rgb(200 54 31 / 0.25);
+  --shadow-glow: 0 12px 32px -8px rgb(200 54 31 / 0.55);
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --animate-marquee: marquee 38s linear infinite;
+  --animate-pulse-ring: pulse-ring 2.2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+  --animate-dust: dust-drift 22s linear infinite;
+  --animate-bob: bob 2s ease-in-out infinite;
+
+  @keyframes marquee {
+    from { transform: translate3d(0, 0, 0); }
+    to { transform: translate3d(-50%, 0, 0); }
+  }
+  @keyframes pulse-ring {
+    0% { transform: scale(0.9); opacity: 0.65; }
+    80%, 100% { transform: scale(1.7); opacity: 0; }
+  }
+  @keyframes dust-drift {
+    from { transform: translate3d(-10%, 0, 0); }
+    to { transform: translate3d(10%, -2%, 0); }
+  }
+  @keyframes bob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(6px); }
+  }
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-card: var(--card);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root {
+  --background: var(--color-sand-100);
+  --foreground: var(--color-ink-950);
+  --card: var(--color-sand-50);
+  --muted: var(--color-sand-200);
+  --muted-foreground: var(--color-ink-600);
+  --border: var(--color-sand-300);
+  --ring: var(--color-red-500);
+  --primary: var(--color-red-500);
+  --primary-foreground: var(--color-sand-50);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+  [id] {
+    scroll-margin-top: 6rem;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    overflow-x: clip;
+  }
+  h1, h2, h3, h4 {
+    @apply font-display font-normal;
+  }
+  /* Instrument Serif ships a single weight — never let the browser fake-bold it. */
+  .font-display {
+    font-weight: 400 !important;
+    font-synthesis: none;
+  }
+  ::selection {
+    background: var(--color-red-500);
+    color: var(--color-sand-50);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-red-500);
+    outline-offset: 3px;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@utility eyebrow {
+  @apply inline-flex items-center gap-3 font-sans text-xs font-medium uppercase tracking-[0.24em] text-red-500;
+}
+
+@utility text-fluid-h2 {
+  font-size: clamp(2.25rem, 4.5vw, 4.5rem);
+  line-height: 1;
+  letter-spacing: -0.015em;
+}
+
+@utility text-fluid-h1 {
+  font-size: clamp(3rem, 7vw, 7.5rem);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+}
+
+@utility container-x {
+  width: 100%;
+  max-width: 88rem;
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 4vw, 3rem);
+}
+
+@utility glass {
+  background: rgb(255 252 248 / 0.12);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  backdrop-filter: blur(18px) saturate(140%);
+  border: 1px solid rgb(255 255 255 / 0.22);
+}
+
+@utility scrollbar-none {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0s !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Film grain — SVG fractal noise, used at ~6% opacity. */
+.film-grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.06;
+  mix-blend-mode: overlay;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Hero — "the view from above"                                            */
+/* ---------------------------------------------------------------------- */
+
+/* Drone settle: the plate loads 12% zoomed and settles to 1.0 */
+@keyframes settle {
+  from { transform: scale(1.12); }
+  to { transform: scale(1); }
+}
+.animate-settle {
+  animation: settle 1.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  transform-origin: 50% 50%;
+}
+
+/*
+ * The 3:2 artwork, laid out like object-fit: cover but in pure CSS so overlays (horizon mask, hotspot,
+ * tyre tracks) can be positioned in % of the IMAGE. The hero is a size container, so cqw/cqh are its
+ * own width/height. --px/--py are the object-position fractions.
+ */
+.hero-plate {
+  --px: 0.5;
+  --py: 0.55;
+  position: absolute;
+  max-width: none;
+  width: max(100cqw, 150cqh);
+  height: max(66.6667cqw, 100cqh);
+  left: calc((100cqw - max(100cqw, 150cqh)) * var(--px));
+  top: calc((100cqh - max(66.6667cqw, 100cqh)) * var(--py));
+}
+@media (max-aspect-ratio: 1/1) {
+  .hero-plate {
+    --px: 0.8;
+  }
+}
+
+/* Wordmark light sweep: one pass across the letters */
+@keyframes sweep {
+  from { background-position: 160% 0; }
+  to { background-position: -60% 0; }
+}
+.wordmark-sweep {
+  color: transparent;
+  background-image: linear-gradient(100deg, transparent 38%, rgb(255 244 220 / 0.95) 50%, transparent 62%);
+  background-size: 250% 100%;
+  background-repeat: no-repeat;
+  background-position: 160% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: sweep 0.9s 1.3s cubic-bezier(0.45, 0, 0.2, 1) 1 both;
+}
+
+/* Tyre-track path: draws once */
+@keyframes draw {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}
+.track-mask {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: draw 1.2s 0.9s ease-out 1 forwards;
+}
+
+/* Hotspot pulse */
+@keyframes hotspot-ring {
+  0% { transform: scale(0.6); opacity: 0.9; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+.hotspot-ring {
+  animation: hotspot-ring 2.2s ease-out infinite;
+}
+
+/* Scroll cue line */
+@keyframes scroll-line {
+  0% { transform: scaleX(0); transform-origin: left; }
+  50% { transform: scaleX(1); transform-origin: left; }
+  51% { transform: scaleX(1); transform-origin: right; }
+  100% { transform: scaleX(0); transform-origin: right; }
+}
+.scroll-line {
+  animation: scroll-line 2.4s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+/* Type sized by BOTH width and height so the hero always fits one screen */
+.hero-wordmark {
+  font-size: min(15vw, 20vh);
+}
+.hero-h1 {
+  font-size: clamp(2.5rem, min(6vw, 9vh), 6.5rem);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+}
+@media (max-width: 767px) {
+  .hero-wordmark {
+    font-size: min(24vw, 17vh);
+  }
+  .hero-h1 {
+    font-size: clamp(2.25rem, min(11.5vw, 7.2vh), 3.5rem);
+  }
+}
+@media (max-height: 800px) {
+  .hero-wordmark {
+    font-size: min(15vw, 18vh);
+  }
+  .hero-hide-800 {
+    display: none !important;
+  }
+}
+@media (max-height: 680px) {
+  .hero-hide-680 {
+    display: none !important;
+  }
+}
+@media (max-height: 640px) {
+  .hero-wordmark {
+    display: none;
+  }
+}
+
+/*
+ * Desktop: the text column starts just right of the big lead 4x4 (its right edge is ~35% across the
+ * artwork), so headline/CTAs never sit on the white car. Computed from the same cover maths as .hero-plate.
+ */
+@media (min-width: 1024px) {
+  .hero-text-offset { padding-left: 30vw; }
 }
