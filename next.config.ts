@@ -10,7 +10,7 @@ const nextConfig: NextConfig = {
     // the desktop hero background's native width exactly, so the manually
     // built /_next/image URLs in the hero's <picture> element neither 400
     // (arbitrary widths are rejected) nor upscale past native resolution.
-    deviceSizes: [640, 750, 828, 1080, 1200, 1599, 1920, 2048, 3840],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1470, 1599, 1920, 2048, 2304, 3840],
     formats: ["image/avif", "image/webp"],
     qualities: [75, 80, 82, 90],
     remotePatterns: [

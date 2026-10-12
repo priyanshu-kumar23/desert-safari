@@ -7,9 +7,9 @@ import { ArrowUpRight } from "lucide-react";
 import { MegaMenu } from "./mega-menu";
 import { MobileNav } from "./mobile-nav";
 import { SearchDialog } from "./search-dialog";
-import { WhatsAppIcon } from "@/components/ui/icons";
+import { ChatButton } from "@/components/ui/chat-button";
 import { Logo } from "./logo";
-import { whatsappLink, WA_GENERAL } from "@/lib/whatsapp";
+import { whatsappLink } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 
 /**
@@ -53,15 +53,7 @@ export function Navbar() {
 
         <div data-header-actions className="col-start-3 flex items-center justify-self-end gap-1.5">
           <SearchDialog />
-          <a
-            href={whatsappLink(WA_GENERAL)}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Chat on WhatsApp"
-            className="hidden size-11 items-center justify-center rounded-full transition-colors hover:bg-current/10 min-[1280px]:flex"
-          >
-            <WhatsAppIcon className="size-5" />
-          </a>
+          <ChatButton variant="ghost" tooltip="bottom" className="hidden size-11 min-[1280px]:flex" />
           <Link
             href={whatsappLink("Hi! I'd like to enquire about a tour.")}
             target="_blank"

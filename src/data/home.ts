@@ -1,35 +1,15 @@
 import { media } from "./media";
 
 // TODO: replace with own photography. The hero plate is a licensed Unsplash photo (see public/images/hero/CREDITS.md).
-// To enable the looping video enhancement, drop hero-loop.webm / hero-loop.mp4 (8–12s, muted, <3MB) into
-// /public/images/hero/ and set `video` below.
-export const heroMedia: { poster: string; video: { webm: string; mp4: string } | null } = {
-  poster: "/images/hero/desktopbg.png",
-  video: null,
-};
-
-/**
- * Convoy position in the hero artwork, as % of the image (not the viewport), so the hotspot stays on the
- * cars at every crop. Measured from desktopbg.png (1536x1024): lead 4x4 of the convoy on the far ridge.
- * TODO: confirm the location + copy with the operator ("Lahbab Red Dunes" supplied by the client).
- */
-export const convoyHotspot = {
-  x: 82.2,
-  y: 49.2,
-  label: "Dune bashing in 4x4 Land Cruisers",
-  location: "Lahbab Red Dunes",
-  blurb: "45 minutes of dune bashing, then camel rides, BBQ dinner and live shows.",
-  href: "/desert-safari/evening-desert-safari-dubai",
-};
-
 export const heroContent = {
   popular: {
-    title: "Desert Safari",
+    title: "Evening Desert Safari",
     fromAed: 99,
     features: ["Dune Bashing", "BBQ Dinner", "Live Shows"],
     href: "/desert-safari/evening-desert-safari-dubai",
   },
-  eyebrow: "Dubai · Desert Safaris & UAE Tours",
+  eyebrow: "Dubai · Desert safaris & UAE tours",
+  subtext: "Dune bashing, camel rides and BBQ dinners under the stars.",
   trust: ["Pay on arrival", "Free cancellation", "Best price"],
 };
 

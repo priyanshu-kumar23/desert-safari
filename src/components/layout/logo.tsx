@@ -8,7 +8,7 @@ export function Logo({ tone = "dark", className }: { tone?: "dark" | "light"; cl
       href="/"
       aria-label="Red Sand Adventure — home"
       className={cn(
-        "flex shrink-0 items-baseline gap-[0.3em] whitespace-nowrap font-display text-[1.75rem] leading-none transition-colors",
+        "flex shrink-0 items-baseline gap-[0.3em] whitespace-nowrap font-display text-[1.75rem] leading-none max-[359px]:text-[1.35rem] transition-colors",
         tone === "light" ? "text-sand-50" : "text-ink-950",
         className,
       )}

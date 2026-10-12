@@ -3,10 +3,9 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
-import { Menu, X } from "lucide-react";
+import { Menu, MessageCircle, X } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { WhatsAppIcon } from "@/components/ui/icons";
 import { navigation } from "@/data/navigation";
 import { whatsappLink, WA_GENERAL } from "@/lib/whatsapp";
 import { Logo } from "./logo";
@@ -87,9 +86,9 @@ export function MobileNav() {
             href={whatsappLink(WA_GENERAL)}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#25D366] text-sm font-bold uppercase tracking-wider text-ink-950"
+            className="flex min-h-12 items-center justify-center gap-2 rounded-full bg-red-500 text-sm font-bold uppercase tracking-wider text-white"
           >
-            <WhatsAppIcon className="size-5" />
+            <MessageCircle aria-hidden strokeWidth={1.75} className="size-5" />
             WhatsApp
           </a>
           <a

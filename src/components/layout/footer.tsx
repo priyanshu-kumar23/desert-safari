@@ -1,15 +1,15 @@
 import Link from "next/link";
-import { Phone } from "lucide-react";
+import { MessageCircle, Phone } from "lucide-react";
 import { Logo } from "./logo";
 import { NewsletterForm } from "./newsletter-form";
-import { InstagramIcon, WhatsAppIcon } from "@/components/ui/icons";
+import { InstagramIcon } from "@/components/ui/icons";
 import { footerColumns } from "@/data/home";
 import { siteConfig } from "@/data/site";
 import { whatsappLink, WA_GENERAL } from "@/lib/whatsapp";
 
 const social = [
   { label: "Instagram", href: siteConfig.social.instagram, Icon: InstagramIcon },
-  { label: "WhatsApp", href: whatsappLink(WA_GENERAL), Icon: WhatsAppIcon },
+  { label: "WhatsApp", href: whatsappLink(WA_GENERAL), Icon: MessageCircle },
   { label: "Call us", href: siteConfig.phoneHref, Icon: Phone },
 ];
 
@@ -17,7 +17,7 @@ export function Footer() {
   return (
     <footer className="relative overflow-hidden bg-ink-950 text-sand-200/80">
       <div aria-hidden className="pointer-events-none absolute -right-40 -top-40 size-[34rem] rounded-full bg-red-500/15 blur-3xl" />
-      <div className="container-x relative pb-8 pt-20">
+      <div className="container-x relative pb-28 pt-20 lg:pb-8">
         <div className="grid gap-14 lg:grid-cols-[1.3fr_2.2fr]">
           <div>
             <Logo tone="light" />

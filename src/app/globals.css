@@ -194,134 +194,117 @@
 }
 
 /* ---------------------------------------------------------------------- */
-/* Hero — "the view from above"                                            */
+/* Hero v4 — full photograph, copy in the sky, glass booking bar           */
 /* ---------------------------------------------------------------------- */
 
-/* Drone settle: the plate loads 12% zoomed and settles to 1.0 */
-@keyframes settle {
-  from { transform: scale(1.12); }
-  to { transform: scale(1); }
+/* Image: fades in from a slight blur. No zoom, no scale — the plate stays at scale 1. */
+@keyframes hero-img-in {
+  from { opacity: 0; filter: blur(14px); }
+  to { opacity: 1; filter: blur(0); }
 }
-.animate-settle {
-  animation: settle 1.6s cubic-bezier(0.16, 1, 0.3, 1) both;
-  transform-origin: 50% 50%;
+.hero-img {
+  animation: hero-img-in 0.9s var(--ease-out-expo) both;
+}
+
+/* Scrolling marquee line (mobile ticks) */
+.hero-marquee-track {
+  animation: marquee 26s linear infinite;
 }
 
 /*
- * The 3:2 artwork, laid out like object-fit: cover but in pure CSS so overlays (horizon mask, hotspot,
- * tyre tracks) can be positioned in % of the IMAGE. The hero is a size container, so cqw/cqh are its
- * own width/height. --px/--py are the object-position fractions.
+ * Hero geometry. The 3:2 plate is drawn with object-fit: cover, so the position of anything IN the image can be
+ * worked out in CSS (the hero is a size container → cqw/cqh). --px/--py are the object-position fractions.
+ * The text column uses these numbers to stay clear of the convoy on the dune crest (top-left of the artwork).
  */
-.hero-plate {
+.hero-root {
   --px: 0.5;
-  --py: 0.55;
-  position: absolute;
-  max-width: none;
-  width: max(100cqw, 150cqh);
-  height: max(66.6667cqw, 100cqh);
-  left: calc((100cqw - max(100cqw, 150cqh)) * var(--px));
-  top: calc((100cqh - max(66.6667cqw, 100cqh)) * var(--py));
-}
-@media (max-aspect-ratio: 1/1) {
-  .hero-plate {
-    --px: 0.8;
-  }
-}
-
-/* Wordmark light sweep: one pass across the letters */
-@keyframes sweep {
-  from { background-position: 160% 0; }
-  to { background-position: -60% 0; }
-}
-.wordmark-sweep {
-  color: transparent;
-  background-image: linear-gradient(100deg, transparent 38%, rgb(255 244 220 / 0.95) 50%, transparent 62%);
-  background-size: 250% 100%;
-  background-repeat: no-repeat;
-  background-position: 160% 0;
-  -webkit-background-clip: text;
-  background-clip: text;
-  animation: sweep 0.9s 1.3s cubic-bezier(0.45, 0, 0.2, 1) 1 both;
-}
-
-/* Tyre-track path: draws once */
-@keyframes draw {
-  from { stroke-dashoffset: 1; }
-  to { stroke-dashoffset: 0; }
-}
-.track-mask {
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-  animation: draw 1.2s 0.9s ease-out 1 forwards;
-}
-
-/* Hotspot pulse */
-@keyframes hotspot-ring {
-  0% { transform: scale(0.6); opacity: 0.9; }
-  100% { transform: scale(2.4); opacity: 0; }
-}
-.hotspot-ring {
-  animation: hotspot-ring 2.2s ease-out infinite;
-}
-
-/* Scroll cue line */
-@keyframes scroll-line {
-  0% { transform: scaleX(0); transform-origin: left; }
-  50% { transform: scaleX(1); transform-origin: left; }
-  51% { transform: scaleX(1); transform-origin: right; }
-  100% { transform: scaleX(0); transform-origin: right; }
-}
-.scroll-line {
-  animation: scroll-line 2.4s cubic-bezier(0.65, 0, 0.35, 1) infinite;
-}
-
-/* Type sized by BOTH width and height so the hero always fits one screen */
-.hero-wordmark {
-  font-size: min(15vw, 20vh);
-}
-.hero-h1 {
-  font-size: clamp(2.5rem, min(6vw, 9vh), 6.5rem);
-  line-height: 0.95;
-  letter-spacing: -0.02em;
-}
-@media (max-width: 767px) {
-  .hero-wordmark {
-    font-size: min(24vw, 17vh);
-  }
-  .hero-h1 {
-    font-size: clamp(2.25rem, min(11.5vw, 7.2vh), 3.5rem);
-  }
-}
-@media (max-height: 800px) {
-  .hero-wordmark {
-    font-size: min(15vw, 18vh);
-  }
-  .hero-hide-800 {
-    display: none !important;
-  }
-}
-@media (max-height: 680px) {
-  .hero-hide-680 {
-    display: none !important;
-  }
+  --py: 0.12;
+  --h1: clamp(3.5rem, min(6.5vw, 10vh), 7rem);
+  height: 100vh;
+  height: 100svh;
+  min-height: 560px;
 }
 @media (max-height: 640px) {
-  .hero-wordmark {
-    display: none;
+  .hero-root { min-height: 0; }
+}
+.hero-img-pos {
+  object-position: calc(var(--px) * 100%) calc(var(--py) * 100%);
+}
+@media (max-aspect-ratio: 6/5) { .hero-root { --px: 0.4; } }
+@media (max-aspect-ratio: 11/10) { .hero-root { --px: 0.26; } }
+@media (min-aspect-ratio: 2/1) { .hero-root { --py: 0.45; } }
+
+/* Viewports close to the photo's own 3:2: let the hero take the photo's shape so nothing is cropped */
+@media (min-width: 768px) and (min-aspect-ratio: 7/5) and (max-aspect-ratio: 8/5) {
+  .hero-root {
+    height: auto;
+    aspect-ratio: 3 / 2;
+    max-height: 100svh;
+    min-height: 94svh;
   }
 }
 
-/*
- * Desktop: the text column starts just right of the big lead 4x4 (its right edge is ~35% across the
- * artwork), so headline/CTAs never sit on the white car. Computed from the same cover maths as .hero-plate.
- */
-@media (min-width: 1024px) {
-  .hero-text-offset {
-    /* split into variables: deeply nested max()/clamp() inside one calc() crashed the CSS minifier on Windows */
-    --box-w: max(100cqw, 150cqh);
-    --lead: calc(0.36 * var(--box-w) + (100cqw - var(--box-w)) * 0.5);
+.hero-h1 {
+  font-size: var(--h1);
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+}
+@media (max-width: 1023px) {
+  .hero-root { --h1: clamp(2.75rem, min(7.4vw, 8vh), 4.5rem); }
+}
+/* portrait tablets: the sky above the convoy is the only room, so the headline never steps aside */
+@media (min-width: 768px) and (max-aspect-ratio: 1/1) {
+  .hero-root { --h1: clamp(2.5rem, min(7.4vw, 6.2vh), 4.5rem); }
+  .hero-shift-h1, .hero-shift-sub { margin-left: 0 !important; }
+}
+@media (max-width: 767px) {
+  .hero-root { --h1: clamp(2.6rem, 11vw, 3.4rem); }
+  .hero-h1 { line-height: 0.95; }
+}
+@media (max-width: 767px) and (max-height: 700px) {
+  .hero-root { --h1: clamp(2.1rem, 9.4vw, 2.6rem); }
+  .hero-hide-700 { display: none !important; }
+}
+/* landscape phones / very short screens */
+@media (min-width: 768px) and (max-height: 520px) {
+  .hero-root { --h1: clamp(2.25rem, 9vh, 3rem); }
+  .hero-hide-520 { display: none !important; }
+}
+
+@media (min-width: 768px) {
+  .hero-geo {
+    --nav: 4.5rem;
+    --pad-t: clamp(12px, 2.6vh, 32px);
+    --bw: max(100cqw, 150cqh);
+    --bh: max(66.6667cqw, 100cqh);
+    --ox: calc((100cqw - var(--bw)) * var(--px));
+    --oy: calc((100cqh - var(--bh)) * var(--py));
+    /* convoy on the dune crest, in hero px: right edge and top (dust plume included) */
+    --truck-r: calc(var(--ox) + 0.345 * var(--bw));
+    --truck-t: calc(var(--oy) + 0.254 * var(--bh));
     --edge: max(0px, calc((100cqw - 88rem) / 2));
-    --gutter: clamp(1rem, 4cqw, 3rem);
-    padding-left: max(0px, calc(var(--lead) - var(--edge) - var(--gutter)));
+    --gutter: clamp(1rem, 4vw, 3rem);
+    --inner-l: calc(var(--edge) + var(--gutter));
+    --shift: max(0px, calc(var(--truck-r) + 28px - var(--inner-l)));
+    /* where the bottom of the headline block / the whole copy stack ends */
+    --top: calc(var(--nav) + var(--pad-t));
+    --h1-b: calc(var(--top) + 52px + 1.72 * var(--h1) + 6px);
+    --all-b: calc(var(--top) + 52px + 1.84 * var(--h1) + 70px);
   }
+  /* each block steps right of the convoy only when it would otherwise sit on it */
+  .hero-shift-h1 { margin-left: clamp(0px, calc((var(--h1-b) - var(--truck-t)) * 1000), var(--shift)); }
+  .hero-shift-sub { margin-left: clamp(0px, calc((var(--all-b) - var(--truck-t)) * 1000), var(--shift)); }
+}
+@media (min-width: 1024px) {
+  .hero-geo { --nav: 5rem; }
+}
+@media (min-width: 1280px) {
+  .hero-geo { --all-b: calc(var(--top) + 52px + 1.84 * var(--h1) + 112px); }
+}
+
+/* Chat FAB dot: pulses twice, then stays still */
+@keyframes chat-dot {
+  0% { box-shadow: 0 0 0 0 rgb(240 138 60 / 0.7); transform: scale(1); }
+  60% { box-shadow: 0 0 0 8px rgb(240 138 60 / 0); transform: scale(1.2); }
+  100% { box-shadow: 0 0 0 0 rgb(240 138 60 / 0); transform: scale(1); }
 }
